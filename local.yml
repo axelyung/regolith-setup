@@ -1,0 +1,24 @@
+---
+- name: This is a hello-world example
+  hosts: all
+  become: true
+  tasks:
+    - name: Download Regolith installer
+      get_url: 
+        url: https://regolith-desktop.com/install-release-ubuntu-22.04-amd64.txt
+        dest: /tmp/regolith-installer.sh
+        mode: 0755
+
+    - name: Execute the Regolith installer
+      shell: sudo sh /tmp/regolith-installer.sh
+
+    - name: Install Regolith
+      shell: sudo apt install -y regolith-desktop
+
+    - name: Upgrade
+      shell: sudo apt upgrade -y
+
+    - name: Remove the Regolith installer
+      file:
+        path: /tmp/regolith-installer.sh
+        state: absent
